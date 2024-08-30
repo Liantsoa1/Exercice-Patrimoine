@@ -3,7 +3,9 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import ShowTable from './Showtable'; 
 import CreatePossession from './Createpossession'; 
 import EditPossession from './EditPossession';
-import PatrimoineValuation from './PatrimoineValuation'; // Importez le nouveau composant
+import PatrimoineValuation from './PatrimoineValuation'; 
+import PatrimoineRange from './PatrimoineRange'; 
+import './table.css';
 
 const App = () => {
     return (
@@ -19,7 +21,10 @@ const App = () => {
                                 <Link to="/possession/create">Créer une Possession</Link>
                             </li>
                             <li>
-                                <Link to="/patrimoine">Évaluation du Patrimoine</Link> {/* Ajoutez un lien vers l'évaluation du patrimoine */}
+                                <Link to="/patrimoine">Évaluation du Patrimoine</Link>
+                            </li>
+                            <li>
+                                <Link to="/patrimoine/range">Plage de Dates</Link>
                             </li>
                         </ul>
                     </nav>
@@ -27,9 +32,10 @@ const App = () => {
                 <Routes>
                     <Route path="/possession" element={<ShowTable />} />
                     <Route path="/possession/create" element={<CreatePossession />} />
-                    <Route path="/" element={<h1>Bienvenue sur la page d'accueil</h1>} />
                     <Route path="/possession/:libelle" element={<EditPossession />} />
-                    <Route path="/patrimoine" element={<PatrimoineValuation />} /> {/* Route pour l'évaluation du patrimoine */}
+                    <Route path="/patrimoine" element={<PatrimoineValuation />} />
+                    <Route path="/patrimoine/range" element={<PatrimoineRange />} />
+                    <Route path="/" element={<h1>Bienvenue sur la page d'accueil</h1>} />
                 </Routes>
             </div>
         </Router>

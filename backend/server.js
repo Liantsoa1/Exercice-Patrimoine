@@ -5,10 +5,10 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import calculateValue from '../src/CalculateValue.js';
+import calculateValue2 from '../src/CalculateValue2.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const app = express();
 const PORT = 5000;
 
@@ -211,6 +211,49 @@ app.post('/possession/:libelle/close', async (req, res) => {
     } catch (error) {
         console.error('Erreur lors de la fermeture de la possession:', error);
         res.status(500).json({ message: 'Erreur lors de la fermeture de la possession' });
+    }
+});
+
+// Endpoint pour récupérer la valeur du patrimoine dans une plage de dates
+app.post('/patrimoine/range', async (req, res) => {
+    try {
+        const { dateDebut, dateFin, jour } = req.body;
+        const data = await fs.readFile(dataFilePath, 'utf8');
+        const patrimoineData = JSON.parse(data).find(item => item.model === "Patrimoine");
+        const possessions = patrimoineData.data.possessions;
+
+        let results = [];
+        let currentDate = new Date(dateDebut);
+
+        while (currentDate <= new Date(dateFin)) {
+            if (currentDate.getDay() === parseInt(jour)) {
+                let totalValeur = 0;
+
+                possessions.forEach(possession => {
+                    const dateDebutObj = new Date(possession.dateDebut);
+                    const dateFinObj = possession.dateFin ? new Date(possession.dateFin) : new Date();
+
+                    if (currentDate >= dateDebutObj && currentDate <= dateFinObj) {
+                        totalValeur += calculateValue2(
+                            possession.valeur,
+                            possession.dateDebut,
+                            possession.tauxAmortissement,
+                            possession.valeurConstante,
+                            currentDate.toISOString().slice(0, 10)
+                        );
+                    }
+                });
+
+                results.push({ date: currentDate.toISOString().slice(0, 10), valeur: totalValeur });
+            }
+
+            currentDate.setDate(currentDate.getDate() + 1); // Avancer d'un jour
+        }
+
+        res.json(results);
+    } catch (error) {
+        console.error('Erreur lors de la récupération de la valeur du patrimoine:', error);
+        res.status(500).json({ message: 'Erreur lors de la récupération de la valeur du patrimoine' });
     }
 });
 

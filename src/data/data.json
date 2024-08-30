@@ -67,7 +67,14 @@
           "libelle": "Essai2",
           "valeur": 55000,
           "dateDebut": "2024-05-02",
-          "dateFin": "2024-08-30T13:48:01.950Z",
+          "dateFin": "2024-08-30T18:29:07.680Z",
+          "tauxAmortissement": 100
+        },
+        {
+          "libelle": "Exemple",
+          "valeur": 80000,
+          "dateDebut": "2024-06-01",
+          "dateFin": "2024-08-30T14:59:11.278Z",
           "tauxAmortissement": 100
         }
       ]
