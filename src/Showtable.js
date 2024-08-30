@@ -29,14 +29,14 @@ function ShowTable() {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>libelle</th>
-                            <th>valeur initiale</th>
-                            <th>date de debut</th>
-                            <th>date de fin</th>
-                            <th>amortissement</th>
-                            <th>valeur constante</th>
-                            <th>valeur actuelle</th>
-                            <th>Actions</th> {}
+                            <th>Libelle</th>
+                            <th>Valeur initiale</th>
+                            <th>Date de début</th>
+                            <th>Date de fin</th>
+                            <th>Amortissement</th>
+                            <th>Valeur constante</th>
+                            <th>Valeur actuelle</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,7 +59,7 @@ function ShowTable() {
                                     )}
                                 </td>
                                 <td>
-                                    <Link to={`/possession/${possession.libelle}/edit`}>
+                                    <Link to={`/possession/${encodeURIComponent(possession.libelle)}`}>
                                         <button className="btn btn-primary">Éditer</button>
                                     </Link>
                                 </td>

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import ShowTable from './Showtable'; 
 import CreatePossession from './Createpossession'; 
+import EditPossession from './EditPossession'
 
 const App = () => {
     return (
@@ -23,6 +24,7 @@ const App = () => {
                     <Route path="/possession" element={<ShowTable />} />
                     <Route path="/possession/create" element={<CreatePossession />} />
                     <Route path="/" element={<h1>Bienvenue sur la page d'accueil</h1>} />
+                    <Route path="/possession/:libelle" element={<EditPossession />} />
                 </Routes>
             </div>
         </Router>
