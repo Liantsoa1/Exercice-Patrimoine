@@ -4,6 +4,7 @@ import fs from 'fs/promises';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import calculateValue from '../src/CalculateValue.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -132,11 +133,9 @@ app.put('/possession/:libelle', async (req, res) => {
 });
 
 // Endpoint pour clôturer une possession
-// Endpoint pour clôturer une possession
-app.post('/possession/:libelle/close', async (req, res) => {
+app.post('/possession', async (req, res) => {
     try {
         const { libelle } = req.params;
-        console.log(`Received request to close possession with libelle: ${libelle}`); // Debug log
         const data = await fs.readFile(dataFilePath, 'utf8');
         const patrimoineData = JSON.parse(data);
         const possessions = patrimoineData.find(item => item.model === "Patrimoine").data.possessions;
@@ -146,13 +145,68 @@ app.post('/possession/:libelle/close', async (req, res) => {
             return res.status(404).json({ message: 'Possession non trouvée' });
         }
 
-        // Mettre à jour la date de fin à la date actuelle
         possessions[possessionIndex].dateFin = new Date().toISOString();
-        console.log(`Updated possession: ${JSON.stringify(possessions[possessionIndex])}`); // Debug log
 
         const updatedData = JSON.stringify(patrimoineData, null, 2);
         await fs.writeFile(dataFilePath, updatedData);
 
+        res.json(possessions[possessionIndex]);
+    } catch (error) {
+        console.error('Erreur lors de la fermeture de la possession:', error);
+        res.status(500).json({ message: 'Erreur lors de la fermeture de la possession' });
+    }
+});
+
+app.get('/patrimoine/:date', async (req, res) => {
+    try {
+        const { date } = req.params;
+        const dateObject = new Date(date); 
+
+        const data = await fs.readFile(dataFilePath, 'utf8');
+        const patrimoineData = JSON.parse(data).find(item => item.model === "Patrimoine");
+        const possessions = patrimoineData.data.possessions;
+
+        let totalValeur = 0;
+
+        possessions.forEach(possession => {
+            const dateDebut = new Date(possession.dateDebut);
+            const dateFin = possession.dateFin ? new Date(possession.dateFin) : new Date();
+
+            if (dateObject >= dateDebut && dateObject <= dateFin) {
+                totalValeur += calculateValue(
+                    possession.valeur,
+                    possession.dateDebut,
+                    possession.tauxAmortissement,
+                    possession.valeurConstante,
+                    date
+                );
+            }
+        });
+
+        res.json({ date: date, valeur: totalValeur });
+    } catch (error) {
+        console.error('Erreur lors de la récupération de la valeur du patrimoine:', error);
+        res.status(500).json({ message: 'Erreur lors de la récupération de la valeur du patrimoine' });
+    }
+});
+
+// Endpoint pour clôturer une possession
+app.post('/possession/:libelle/close', async (req, res) => {
+    try {
+        const { libelle } = req.params;
+        const data = await fs.readFile(dataFilePath, 'utf8');
+        const patrimoineData = JSON.parse(data);
+        const possessions = patrimoineData.find(item => item.model === "Patrimoine").data.possessions;
+        const possessionIndex = possessions.findIndex(p => p.libelle === libelle);
+
+        if (possessionIndex === -1) {
+            return res.status(404).json({ message: 'Possession non trouvée' });
+        }
+
+        possessions[possessionIndex].dateFin = new Date().toISOString();
+
+        const updatedData = JSON.stringify(patrimoineData, null, 2);
+        await fs.writeFile(dataFilePath, updatedData);
         res.json(possessions[possessionIndex]);
     } catch (error) {
         console.error('Erreur lors de la fermeture de la possession:', error);

@@ -13,9 +13,6 @@
       },
       "possessions": [
         {
-          "possesseur": {
-            "nom": "John Doe"
-          },
           "libelle": "MacBook Pro",
           "valeur": 4000000,
           "dateDebut": "2023-12-25T00:00:00.000Z",
@@ -23,9 +20,6 @@
           "tauxAmortissement": 5
         },
         {
-          "possesseur": {
-            "nom": "John Doe"
-          },
           "libelle": "Alternance",
           "valeur": 0,
           "dateDebut": "2023-12-31T21:00:00.000Z",
@@ -34,9 +28,6 @@
           "valeurConstante": 500000
         },
         {
-          "possesseur": {
-            "nom": "John Doe"
-          },
           "libelle": "Survie",
           "valeur": 0,
           "dateDebut": "2022-12-31T21:00:00.000Z",
@@ -48,21 +39,21 @@
           "libelle": "essai",
           "valeur": 12000,
           "dateDebut": "2024-08-02",
-          "dateFin": "2024-08-30T10:47:12.993Z",
+          "dateFin": "2024-08-30T13:39:24.636Z",
           "tauxAmortissement": 12
         },
         {
           "libelle": "Achat",
           "valeur": 200000,
           "dateDebut": "2024-07-24",
-          "dateFin": "2024-08-30T10:47:21.248Z",
+          "dateFin": "2024-08-30T13:39:23.236Z",
           "tauxAmortissement": 10
         },
         {
           "libelle": "Hi",
           "valeur": 20000,
           "dateDebut": "2024-07-25",
-          "dateFin": "2024-08-27",
+          "dateFin": "2024-08-30T13:37:36.796Z",
           "tauxAmortissement": 120
         },
         {
@@ -71,6 +62,13 @@
           "dateDebut": "2024-07-18",
           "dateFin": "2024-08-30",
           "tauxAmortissement": 12
+        },
+        {
+          "libelle": "Essai2",
+          "valeur": 55000,
+          "dateDebut": "2024-05-02",
+          "dateFin": "2024-08-30T13:48:01.950Z",
+          "tauxAmortissement": 100
         }
       ]
     }
