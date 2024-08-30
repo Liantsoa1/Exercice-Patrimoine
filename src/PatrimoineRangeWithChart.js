@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
+import './CSS/patrimoineRange.css';
 
 const PatrimoineRangeWithChart = () => {
     const [dateDebut, setDateDebut] = useState('');
@@ -20,12 +21,10 @@ const PatrimoineRangeWithChart = () => {
                 jour
             });
 
-            // Transformez les données reçues pour le graphique
-            const data = response.data; // Assurez-vous que les données sont au format correct
-            const labels = data.map(item => item.date); // Supposons que chaque objet a une propriété 'date'
-            const values = data.map(item => item.valeur); // Supposons que chaque objet a une propriété 'valeur'
+            const data = response.data;
+            const labels = data.map(item => item.date);
+            const values = data.map(item => item.valeur);
 
-            // Mettre à jour l'état de la valeur totale du patrimoine
             const totalValeur = values.reduce((acc, val) => acc + val, 0);
             setValeurPatrimoine(totalValeur);
 
@@ -49,16 +48,16 @@ const PatrimoineRangeWithChart = () => {
     return (
         <div>
             <h2>Évolution du Patrimoine</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
+            <form onSubmit={handleSubmit} className="form-container">
+                <label className="form-label">
                     Date de début :
                     <input type="date" value={dateDebut} onChange={(e) => setDateDebut(e.target.value)} required />
                 </label>
-                <label>
+                <label className="form-label">
                     Date de fin :
                     <input type="date" value={dateFin} onChange={(e) => setDateFin(e.target.value)} required />
                 </label>
-                <label>
+                <label className="form-label">
                     Jour de la semaine :
                     <select value={jour} onChange={(e) => setJour(e.target.value)}>
                         <option value="">Sélectionnez un jour</option>
@@ -71,7 +70,7 @@ const PatrimoineRangeWithChart = () => {
                         <option value="6">Samedi</option>
                     </select>
                 </label>
-                <button type="submit">Valider</button>
+                <button type="submit" className="submit-button">Valider</button>
             </form>
             <p>Valeur totale du patrimoine : {valeurPatrimoine} Ar</p>
             {chartData && (

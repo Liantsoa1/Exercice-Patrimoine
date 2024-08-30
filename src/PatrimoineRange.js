@@ -4,7 +4,7 @@ import axios from 'axios';
 const PatrimoineRange = () => {
     const [dateDebut, setDateDebut] = useState('');
     const [dateFin, setDateFin] = useState('');
-    const [jour, setJour] = useState(''); // Gardez le jour pour la logique, mais pas pour l'affichage
+    const [jour, setJour] = useState(''); 
     const [valeurPatrimoine, setValeurPatrimoine] = useState(0);
 
     const handleSubmit = async (e) => {
@@ -17,10 +17,9 @@ const PatrimoineRange = () => {
                 jour
             });
     
-            // Assurez-vous que vous mettez à jour l'état avec la valeur calculée
-            const valeurs = response.data; // Supposons que la réponse est un tableau d'objets avec des valeurs
+            const valeurs = response.data;
             const totalValeur = valeurs.reduce((acc, item) => acc + item.valeur, 0);
-            setValeurPatrimoine(totalValeur); // Mettre à jour l'état avec la somme des valeurs
+            setValeurPatrimoine(totalValeur);
         } catch (error) {
             console.error('Erreur lors de la récupération des données:', error);
         }
@@ -58,4 +57,4 @@ const PatrimoineRange = () => {
     );
 };
 
-export default PatrimoineRange;
+export default PatrimoineRange

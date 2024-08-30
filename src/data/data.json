@@ -36,46 +36,19 @@
           "valeurConstante": -300000
         },
         {
-          "libelle": "essai",
-          "valeur": 12000,
-          "dateDebut": "2024-08-02",
-          "dateFin": "2024-08-30T13:39:24.636Z",
-          "tauxAmortissement": 12
+          "libelle": "Moto",
+          "valeur": 700000,
+          "dateDebut": "2023-01-10",
+          "dateFin": "2024-08-30T22:57:26.206Z",
+          "tauxAmortissement": 15,
+          "valeurConstante": null
         },
         {
-          "libelle": "Achat",
-          "valeur": 200000,
-          "dateDebut": "2024-07-24",
-          "dateFin": "2024-08-30T13:39:23.236Z",
-          "tauxAmortissement": 10
-        },
-        {
-          "libelle": "Hi",
-          "valeur": 20000,
-          "dateDebut": "2024-07-25",
-          "dateFin": "2024-08-30T13:37:36.796Z",
-          "tauxAmortissement": 120
-        },
-        {
-          "libelle": "Essai",
-          "valeur": 40000,
-          "dateDebut": "2024-07-18",
-          "dateFin": "2024-08-30",
-          "tauxAmortissement": 12
-        },
-        {
-          "libelle": "Essai2",
-          "valeur": 55000,
-          "dateDebut": "2024-05-02",
-          "dateFin": "2024-08-30T18:29:07.680Z",
-          "tauxAmortissement": 100
-        },
-        {
-          "libelle": "Exemple",
-          "valeur": 80000,
-          "dateDebut": "2024-06-01",
-          "dateFin": "2024-08-30T14:59:11.278Z",
-          "tauxAmortissement": 100
+          "libelle": "Vélo",
+          "valeur": 100000,
+          "dateDebut": "2024-04-05",
+          "dateFin": null,
+          "tauxAmortissement": 15
         }
       ]
     }

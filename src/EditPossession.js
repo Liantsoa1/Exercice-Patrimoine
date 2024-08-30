@@ -25,7 +25,7 @@ function EditPossession() {
         try {
             // Formatage des données avant l'envoi
             const updatedData = {
-                possesseur: { nom: "John Doe" }, // Ajoutez le possesseur si nécessaire
+                possesseur: { nom: "John Doe" }, 
                 libelle: possession.libelle,
                 valeur: possession.valeur,
                 dateDebut: possession.dateDebut,
@@ -60,7 +60,7 @@ function EditPossession() {
                 <label>Date de début:</label>
                 <input
                     type="date"
-                    value={possession.dateDebut.split('T')[0]} // Formatage pour l'input date
+                    value={possession.dateDebut.split('T')[0]}
                     onChange={(e) => setPossession({ ...possession, dateDebut: e.target.value })}
                 />
             </div>

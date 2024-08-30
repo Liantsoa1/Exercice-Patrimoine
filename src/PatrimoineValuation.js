@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './CSS/PatrimoineValuation.css'
 
 function PatrimoineValuation() {
     const [date, setDate] = useState('');
@@ -29,9 +30,11 @@ function PatrimoineValuation() {
                 onChange={handleDateChange} 
             />
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            <p>Valeur du patrimoine au {date}: {patrimoineTotal} Ar</p>
+            <p>
+                Valeur du patrimoine au <strong>{date}</strong>: 
+                <span className="patrimoine-total">{patrimoineTotal} Ar</span>
+            </p>
         </div>
     );
 }
-
 export default PatrimoineValuation;

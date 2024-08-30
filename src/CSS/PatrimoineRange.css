@@ -1,0 +1,17 @@
+/* patrimoineRangeWithChart.css */
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px; 
+    margin-right: 20px; 
+}
+
+.form-label {
+    margin-bottom: 10px;
+}
+
+.submit-button {
+    margin-top: 20px;
+}
