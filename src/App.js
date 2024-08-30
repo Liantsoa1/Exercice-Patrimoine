@@ -4,7 +4,7 @@ import ShowTable from './Showtable';
 import CreatePossession from './Createpossession'; 
 import EditPossession from './EditPossession';
 import PatrimoineValuation from './PatrimoineValuation'; 
-import PatrimoineRange from './PatrimoineRange'; 
+import PatrimoineRangeWithChart from './PatrimoineRangeWithChart.js'; 
 import './table.css';
 
 const App = () => {
@@ -34,7 +34,7 @@ const App = () => {
                     <Route path="/possession/create" element={<CreatePossession />} />
                     <Route path="/possession/:libelle" element={<EditPossession />} />
                     <Route path="/patrimoine" element={<PatrimoineValuation />} />
-                    <Route path="/patrimoine/range" element={<PatrimoineRange />} />
+                    <Route path="/patrimoine/range" element={<PatrimoineRangeWithChart />} />
                     <Route path="/" element={<h1>Bienvenue sur la page d'accueil</h1>} />
                 </Routes>
             </div>

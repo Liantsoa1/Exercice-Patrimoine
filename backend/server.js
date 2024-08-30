@@ -15,7 +15,7 @@ const PORT = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Chemin vers le fichier data.json
+// Chemin vers le fichier data.
 const dataFilePath = path.join(__dirname, '..', 'src', 'data', 'data.json');
 
 // Endpoint pour récupérer la liste des possessions
