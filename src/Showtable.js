@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
-import formatDate from "./formatDate"; // Assurez-vous que cette fonction est correctement définie
-import calculateValue from "./CalculateValue"; // Assurez-vous que cette fonction est correctement définie
+import formatDate from "./formatDate"; 
+import calculateValue from "./CalculateValue"; 
 import { Link } from "react-router-dom"; 
 import "./table.css";
 
@@ -23,6 +23,7 @@ function ShowTable() {
     }, []);
 
     const handleClose = async (libelle) => {
+        console.log(`Closing possession with libelle: ${libelle}`); // Debug log
         try {
           await axios.post(`http://localhost:5000/possession/${encodeURIComponent(libelle)}/close`);
           // Refresh the list of possessions after closing

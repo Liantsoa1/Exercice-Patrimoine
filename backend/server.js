@@ -136,6 +136,7 @@ app.put('/possession/:libelle', async (req, res) => {
 app.post('/possession/:libelle/close', async (req, res) => {
     try {
         const { libelle } = req.params;
+        console.log(`Received request to close possession with libelle: ${libelle}`); // Debug log
         const data = await fs.readFile(dataFilePath, 'utf8');
         const patrimoineData = JSON.parse(data);
         const possessions = patrimoineData.find(item => item.model === "Patrimoine").data.possessions;
@@ -147,6 +148,7 @@ app.post('/possession/:libelle/close', async (req, res) => {
 
         // Mettre à jour la date de fin à la date actuelle
         possessions[possessionIndex].dateFin = new Date().toISOString();
+        console.log(`Updated possession: ${JSON.stringify(possessions[possessionIndex])}`); // Debug log
 
         const updatedData = JSON.stringify(patrimoineData, null, 2);
         await fs.writeFile(dataFilePath, updatedData);

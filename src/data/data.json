@@ -19,7 +19,7 @@
           "libelle": "MacBook Pro",
           "valeur": 4000000,
           "dateDebut": "2023-12-25T00:00:00.000Z",
-          "dateFin": "2025-12-25T00:00:00.000Z",
+          "dateFin": "2024-08-30T10:46:51.065Z",
           "tauxAmortissement": 5
         },
         {
@@ -48,14 +48,14 @@
           "libelle": "essai",
           "valeur": 12000,
           "dateDebut": "2024-08-02",
-          "dateFin": "2024-08-10",
+          "dateFin": "2024-08-30T10:47:12.993Z",
           "tauxAmortissement": 12
         },
         {
           "libelle": "Achat",
           "valeur": 200000,
           "dateDebut": "2024-07-24",
-          "dateFin": "2024-08-28",
+          "dateFin": "2024-08-30T10:47:21.248Z",
           "tauxAmortissement": 10
         },
         {
