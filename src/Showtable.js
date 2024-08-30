@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
-import formatDate from "./formatDate";
-import calculateValue from "./CalculateValue";
+import formatDate from "./formatDate"; // Assurez-vous que cette fonction est correctement définie
+import calculateValue from "./CalculateValue"; // Assurez-vous que cette fonction est correctement définie
 import { Link } from "react-router-dom"; 
 import "./table.css";
 
@@ -21,6 +21,17 @@ function ShowTable() {
 
         fetchData();
     }, []);
+
+    const handleClose = async (libelle) => {
+        try {
+          await axios.post(`http://localhost:5000/possession/${encodeURIComponent(libelle)}/close`);
+          // Refresh the list of possessions after closing
+          const response = await axios.get("http://localhost:5000/possession");
+          setPatrimoine(response.data);
+        } catch (error) {
+          console.error('Error closing possession:', error);
+        }
+      };
 
     return (
         <div className="container">
@@ -62,6 +73,7 @@ function ShowTable() {
                                     <Link to={`/possession/${encodeURIComponent(possession.libelle)}`}>
                                         <button className="btn btn-primary">Éditer</button>
                                     </Link>
+                                    <button className="btn btn-danger" onClick={() => handleClose(possession.libelle)}>Close</button>
                                 </td>
                             </tr>
                         ))}

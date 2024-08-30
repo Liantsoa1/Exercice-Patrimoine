@@ -131,6 +131,33 @@ app.put('/possession/:libelle', async (req, res) => {
     }
 });
 
+// Endpoint pour clôturer une possession
+// Endpoint pour clôturer une possession
+app.post('/possession/:libelle/close', async (req, res) => {
+    try {
+        const { libelle } = req.params;
+        const data = await fs.readFile(dataFilePath, 'utf8');
+        const patrimoineData = JSON.parse(data);
+        const possessions = patrimoineData.find(item => item.model === "Patrimoine").data.possessions;
+
+        const possessionIndex = possessions.findIndex(p => p.libelle === libelle);
+        if (possessionIndex === -1) {
+            return res.status(404).json({ message: 'Possession non trouvée' });
+        }
+
+        // Mettre à jour la date de fin à la date actuelle
+        possessions[possessionIndex].dateFin = new Date().toISOString();
+
+        const updatedData = JSON.stringify(patrimoineData, null, 2);
+        await fs.writeFile(dataFilePath, updatedData);
+
+        res.json(possessions[possessionIndex]);
+    } catch (error) {
+        console.error('Erreur lors de la fermeture de la possession:', error);
+        res.status(500).json({ message: 'Erreur lors de la fermeture de la possession' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
 });
