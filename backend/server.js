@@ -87,15 +87,19 @@ app.post('/possession/create', async (req, res) => {
     }
 });
 
+// Endpoint pour récupérer une possession par libelle
 app.get('/possession/:libelle', async (req, res) => {
     try {
         const { libelle } = req.params;
         const data = await fs.readFile(dataFilePath, 'utf8');
         const patrimoineData = JSON.parse(data);
+
         const possession = patrimoineData.find(item => item.model === "Patrimoine").data.possessions.find(p => p.libelle === libelle);
+
         if (!possession) {
             return res.status(404).json({ message: 'Possession non trouvée' });
         }
+
         res.json(possession);
     } catch (error) {
         console.error('Erreur lors de la récupération de la possession:', error);
@@ -110,10 +114,11 @@ app.put('/possession/:libelle', async (req, res) => {
         const { dateFin, tauxAmortissement, valeur } = req.body;
 
         const data = await fs.readFile(dataFilePath, 'utf8');
-        const patrimoineData = JSON.parse(data).find(item => item.model === "Patrimoine");
-        const possessions = patrimoineData.data.possessions;
+        const patrimoineData = JSON.parse(data);
+        const possessions = patrimoineData.find(item => item.model === "Patrimoine").data.possessions;
 
         const possessionIndex = possessions.findIndex(p => p.libelle === libelle);
+
         if (possessionIndex === -1) {
             return res.status(404).json({ message: 'Possession non trouvée' });
         }
@@ -247,7 +252,7 @@ app.post('/patrimoine/range', async (req, res) => {
                 results.push({ date: currentDate.toISOString().slice(0, 10), valeur: totalValeur });
             }
 
-            currentDate.setDate(currentDate.getDate() + 1); // Avancer d'un jour
+            currentDate.setDate(currentDate.getDate() + 1); 
         }
 
         res.json(results);

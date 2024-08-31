@@ -5,7 +5,8 @@ import axios from "axios";
 import formatDate from "./formatDate"; 
 import calculateValue from "./CalculateValue"; 
 import { Link } from "react-router-dom"; 
-import "./CSS/Showtable.css";
+import "./table.css";
+import "./CSS/ShowTable.css"
 
 function ShowTable() {
     const [patrimoine, setPatrimoine] = useState([]);
@@ -26,7 +27,7 @@ function ShowTable() {
     const handleClose = async (libelle) => {
         try {
             await axios.post(`http://localhost:5000/possession/${encodeURIComponent(libelle)}/close`);
-            // Rafraîchir la liste des possessions après la fermeture
+            
             const response = await axios.get("http://localhost:5000/possession");
             setPatrimoine(response.data);
         } catch (error) {

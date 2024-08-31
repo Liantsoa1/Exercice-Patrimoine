@@ -39,7 +39,7 @@
           "libelle": "Moto",
           "valeur": 700000,
           "dateDebut": "2023-01-10",
-          "dateFin": "2024-08-30T22:57:26.206Z",
+          "dateFin": "2024-08-31T04:15:15.374Z",
           "tauxAmortissement": 15,
           "valeurConstante": null
         },
@@ -49,6 +49,20 @@
           "dateDebut": "2024-04-05",
           "dateFin": null,
           "tauxAmortissement": 15
+        },
+        {
+          "libelle": "Chaussure",
+          "valeur": 60000,
+          "dateDebut": "2024-05-31",
+          "dateFin": "2024-12-07",
+          "tauxAmortissement": 20
+        },
+        {
+          "libelle": "Piano",
+          "valeur": 15000,
+          "dateDebut": "2024-05-02",
+          "dateFin": "2024-08-31T04:25:43.560Z",
+          "tauxAmortissement": 5
         }
       ]
     }
