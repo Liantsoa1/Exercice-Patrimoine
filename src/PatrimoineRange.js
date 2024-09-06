@@ -11,7 +11,7 @@ const PatrimoineRange = () => {
         e.preventDefault();
     
         try {
-            const response = await axios.post('http://localhost:5000/patrimoine/range', {
+            const response = await axios.post('http://localhost:3000/patrimoine/range', {
                 dateDebut,
                 dateFin,
                 jour

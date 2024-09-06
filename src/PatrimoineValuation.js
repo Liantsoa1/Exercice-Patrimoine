@@ -12,7 +12,7 @@ function PatrimoineValuation() {
         setDate(selectedDate);
 
         try {
-            const response = await axios.get(`http://localhost:5000/patrimoine/${selectedDate}`);
+            const response = await axios.get(`http://localhost:3000/patrimoine/${selectedDate}`);
             setPatrimoineTotal(response.data.valeur);
             setError(''); 
         } catch (error) {

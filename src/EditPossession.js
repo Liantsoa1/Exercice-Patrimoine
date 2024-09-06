@@ -10,7 +10,7 @@ function EditPossession() {
     useEffect(() => {
         const fetchPossession = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/possession/${encodeURIComponent(libelle)}`);
+                const response = await axios.get(`http://localhost:3000/possession/${encodeURIComponent(libelle)}`);
                 setPossession(response.data);
             } catch (error) {
                 console.error('Erreur lors de la récupération de la possession:', error);
@@ -31,7 +31,7 @@ function EditPossession() {
                 tauxAmortissement: possession.tauxAmortissement,
             };
 
-            await axios.put(`http://localhost:5000/possession/${encodeURIComponent(libelle)}`, updatedData);
+            await axios.put(`http://localhost:3000/possession/${encodeURIComponent(libelle)}`, updatedData);
             navigate('/possession'); 
         } catch (error) {
             console.error('Erreur lors de la mise à jour de la possession:', error);

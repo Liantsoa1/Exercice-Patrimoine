@@ -14,7 +14,7 @@ function ShowTable() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/possession");
+                const response = await axios.get("http://localhost:3000/possession");
                 setPatrimoine(response.data);
             } catch (error) {
                 console.error('Erreur lors de la récupération des possessions:', error);
@@ -26,9 +26,9 @@ function ShowTable() {
 
     const handleClose = async (libelle) => {
         try {
-            await axios.post(`http://localhost:5000/possession/${encodeURIComponent(libelle)}/close`);
+            await axios.post(`http://localhost:3000/possession/${encodeURIComponent(libelle)}/close`);
             
-            const response = await axios.get("http://localhost:5000/possession");
+            const response = await axios.get("http://localhost:3000/possession");
             setPatrimoine(response.data);
         } catch (error) {
             console.error('Erreur lors de la fermeture de la possession:', error);
