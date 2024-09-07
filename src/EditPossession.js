@@ -7,10 +7,13 @@ function EditPossession() {
     const [possession, setPossession] = useState(null);
     const navigate = useNavigate();
 
+    // Définir l'URL de l'API en fonction de l'environnement
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
     useEffect(() => {
         const fetchPossession = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/possession/${encodeURIComponent(libelle)}`);
+                const response = await axios.get(`${API_URL}/possession/${encodeURIComponent(libelle)}`);
                 setPossession(response.data);
             } catch (error) {
                 console.error('Erreur lors de la récupération de la possession:', error);
@@ -31,7 +34,7 @@ function EditPossession() {
                 tauxAmortissement: possession.tauxAmortissement,
             };
 
-            await axios.put(`http://localhost:3000/possession/${encodeURIComponent(libelle)}`, updatedData);
+            await axios.put(`${API_URL}/possession/${encodeURIComponent(libelle)}`, updatedData);
             navigate('/possession'); 
         } catch (error) {
             console.error('Erreur lors de la mise à jour de la possession:', error);

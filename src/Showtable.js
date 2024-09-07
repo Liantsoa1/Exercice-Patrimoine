@@ -6,15 +6,18 @@ import formatDate from "./formatDate";
 import calculateValue from "./CalculateValue"; 
 import { Link } from "react-router-dom"; 
 import "./table.css";
-import "./CSS/ShowTable.css"
+import "./CSS/ShowTable.css";
 
 function ShowTable() {
     const [patrimoine, setPatrimoine] = useState([]);
 
+    // Définir l'URL de l'API en fonction de l'environnement
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/possession");
+                const response = await axios.get(`${API_URL}/possession`);
                 setPatrimoine(response.data);
             } catch (error) {
                 console.error('Erreur lors de la récupération des possessions:', error);
@@ -26,9 +29,9 @@ function ShowTable() {
 
     const handleClose = async (libelle) => {
         try {
-            await axios.post(`http://localhost:3000/possession/${encodeURIComponent(libelle)}/close`);
+            await axios.post(`${API_URL}/possession/${encodeURIComponent(libelle)}/close`);
             
-            const response = await axios.get("http://localhost:3000/possession");
+            const response = await axios.get(`${API_URL}/possession`);
             setPatrimoine(response.data);
         } catch (error) {
             console.error('Erreur lors de la fermeture de la possession:', error);

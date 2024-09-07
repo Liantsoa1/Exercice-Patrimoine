@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { Form, Button, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom"; // Importez useNavigate
 import './CSS/CreatePossession.css'; 
 
 function CreatePossession() {
@@ -10,19 +10,23 @@ function CreatePossession() {
     const [dateDebut, setDateDebut] = useState('');
     const [dateFin, setDateFin] = useState('');
     const [tauxAmortissement, setTauxAmortissement] = useState('');
-    const navigate = useNavigate();
+    
+    const navigate = useNavigate(); // Initialisez useNavigate
+
+    // Définir l'URL de l'API en fonction de l'environnement
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:3000/possession/create', {
+            await axios.post(`${API_URL}/possession/create`, {
                 libelle,
                 valeur: Number(valeur),
                 dateDebut,
                 dateFin,
                 tauxAmortissement: Number(tauxAmortissement)
             });
-            navigate('/possession');
+            navigate('/possession'); // Naviguez vers la liste des possessions
         } catch (error) {
             console.error('Erreur lors de la création de la possession:', error);
         }

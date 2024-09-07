@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './CSS/PatrimoineValuation.css'
+import './CSS/PatrimoineValuation.css';
 
 function PatrimoineValuation() {
     const [date, setDate] = useState('');
     const [patrimoineTotal, setPatrimoineTotal] = useState(0);
     const [error, setError] = useState('');
 
+    // Définir l'URL de l'API en fonction de l'environnement
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
     const handleDateChange = async (event) => {
         const selectedDate = event.target.value;
         setDate(selectedDate);
 
         try {
-            const response = await axios.get(`http://localhost:3000/patrimoine/${selectedDate}`);
+            const response = await axios.get(`${API_URL}/patrimoine/${selectedDate}`);
             setPatrimoineTotal(response.data.valeur);
             setError(''); 
         } catch (error) {
@@ -37,4 +40,5 @@ function PatrimoineValuation() {
         </div>
     );
 }
+
 export default PatrimoineValuation;

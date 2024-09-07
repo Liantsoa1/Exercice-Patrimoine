@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     entry: './src/index.js', // Chemin vers votre fichier d'entrée
@@ -27,6 +28,9 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx'], // Extensions à résoudre
     },
+    plugins: [
+        new Dotenv() // Ajout de dotenv-webpack
+    ],
     devServer: {
         static: {
             directory: path.join(__dirname, 'public'), // Dossier à servir
@@ -36,4 +40,4 @@ module.exports = {
         open: true, // Ouvrir le navigateur automatiquement
     },
     mode: 'development', // Mode de développement
-};
+}

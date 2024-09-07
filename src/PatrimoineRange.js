@@ -7,11 +7,14 @@ const PatrimoineRange = () => {
     const [jour, setJour] = useState(''); 
     const [valeurPatrimoine, setValeurPatrimoine] = useState(0);
 
+    // Définir l'URL de l'API en fonction de l'environnement
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
     const handleSubmit = async (e) => {
         e.preventDefault();
     
         try {
-            const response = await axios.post('http://localhost:3000/patrimoine/range', {
+            const response = await axios.post(`${API_URL}/patrimoine/range`, {
                 dateDebut,
                 dateFin,
                 jour
