@@ -27,9 +27,17 @@ module.exports = {
     },
     resolve: {
         extensions: ['.js', '.jsx'], // Extensions à résoudre
+        fallback: {
+            "path": require.resolve("path-browserify"), // Polyfill pour 'path'
+            "fs": false, // Désactiver 'fs' si non nécessaire
+            "os": false, // Désactiver 'os' si non nécessaire
+            "crypto": require.resolve("crypto-browserify"), // Polyfill pour 'crypto'
+        },
     },
     plugins: [
-        new Dotenv() // Ajout de dotenv-webpack
+        new Dotenv({
+            path: './environment.env', // Spécifiez le chemin de votre fichier .env
+        }) // Ajout de dotenv-webpack
     ],
     devServer: {
         static: {
@@ -40,4 +48,4 @@ module.exports = {
         open: true, // Ouvrir le navigateur automatiquement
     },
     mode: 'development', // Mode de développement
-}
+};
