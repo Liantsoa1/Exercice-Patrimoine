@@ -4,19 +4,19 @@ import fs from 'fs/promises';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import calculateValue from '../src/CalculateValue.js';
-import calculateValue2 from '../src/CalculateValue2.js';
+import calculateValue from '../frontend/src/CalculateValue.js';
+import calculateValue2 from '../frontend/src/CalculateValue2.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
 
 // Chemin vers le fichier data.
-const dataFilePath = path.join(__dirname, '..', 'src', 'data', 'data.json');
+const dataFilePath = path.join(__dirname, 'data.json');
 
 // Endpoint pour récupérer la liste des possessions
 app.get('/possession', async (req, res) => {
