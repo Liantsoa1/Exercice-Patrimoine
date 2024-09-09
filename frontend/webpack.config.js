@@ -42,8 +42,10 @@ module.exports = {
         }),
         new Dotenv({
             path: './environment.env', // Spécifiez le chemin de votre fichier .env
-        }) // Ajout de dotenv-webpack
+        }),
     ],
-    // Enlevez devServer si vous déployez sur Render
+    stats: {
+        children: true, // Activer les détails des compilations enfants
+    },
     mode: 'production', // Changez le mode à production pour le déploiement
-}
+};
