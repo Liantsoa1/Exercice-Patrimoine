@@ -39,13 +39,6 @@ module.exports = {
             path: './environment.env', // Spécifiez le chemin de votre fichier .env
         }) // Ajout de dotenv-webpack
     ],
-    devServer: {
-        static: {
-            directory: path.join(__dirname, 'public'), // Dossier à servir
-        },
-        compress: true,
-        port: 9000, // Port du serveur de développement
-        open: true, // Ouvrir le navigateur automatiquement
-    },
-    mode: 'development', // Mode de développement
+    // Enlevez devServer si vous déployez sur Render
+    mode: 'production', // Changez le mode à production pour le déploiement
 };

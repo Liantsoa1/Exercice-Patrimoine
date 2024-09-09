@@ -265,3 +265,11 @@ app.post('/patrimoine/range', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
 });
+
+// Middleware pour servir les fichiers statiques du frontend
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+// Route pour toutes les autres requêtes (pour les routes de l'application frontend)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+});
