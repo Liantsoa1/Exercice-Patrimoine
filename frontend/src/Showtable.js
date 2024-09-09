@@ -25,7 +25,7 @@ function ShowTable() {
         };
 
         fetchData();
-    }, []);
+    }, [API_URL]); // Ajout de API_URL comme dépendance
 
     const handleClose = async (libelle) => {
         try {

@@ -45,6 +45,7 @@ const PatrimoineRangeWithChart = () => {
             });
         } catch (error) {
             console.error('Erreur lors de la récupération des données:', error);
+            // Afficher un message d'erreur ou gérer l'erreur comme nécessaire
         }
     };
 

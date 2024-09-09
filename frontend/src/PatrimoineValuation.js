@@ -21,6 +21,7 @@ function PatrimoineValuation() {
         } catch (error) {
             console.error('Erreur lors de la récupération de la valeur du patrimoine:', error);
             setError('Erreur lors de la récupération de la valeur du patrimoine');
+            setPatrimoineTotal(0); // Réinitialiser la valeur en cas d'erreur
         }
     };
 

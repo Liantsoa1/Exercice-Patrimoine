@@ -5,6 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 function EditPossession() {
     const { libelle } = useParams();
     const [possession, setPossession] = useState(null);
+    const [error, setError] = useState(''); // État pour gérer les erreurs
     const navigate = useNavigate();
 
     // Définir l'URL de l'API en fonction de l'environnement
@@ -17,6 +18,7 @@ function EditPossession() {
                 setPossession(response.data);
             } catch (error) {
                 console.error('Erreur lors de la récupération de la possession:', error);
+                setError('Erreur lors de la récupération de la possession'); // Mettre à jour l'état d'erreur
             }
         };
 
@@ -25,6 +27,8 @@ function EditPossession() {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
+        if (!possession) return; // Vérifier si possession est chargée
+
         try {
             const updatedData = {
                 libelle: possession.libelle,
@@ -38,6 +42,7 @@ function EditPossession() {
             navigate('/possession'); 
         } catch (error) {
             console.error('Erreur lors de la mise à jour de la possession:', error);
+            setError('Erreur lors de la mise à jour de la possession'); // Mettre à jour l'état d'erreur
         }
     };
 
@@ -45,6 +50,7 @@ function EditPossession() {
 
     return (
         <form onSubmit={handleUpdate}>
+            {error && <p style={{ color: 'red' }}>{error}</p>} {/* Afficher l'erreur si elle existe */}
             <div>
                 <label>Libelle:</label>
                 <input type="text" value={possession.libelle} readOnly />

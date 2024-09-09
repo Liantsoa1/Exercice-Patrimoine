@@ -6,6 +6,7 @@ const PatrimoineRange = () => {
     const [dateFin, setDateFin] = useState('');
     const [jour, setJour] = useState(''); 
     const [valeurPatrimoine, setValeurPatrimoine] = useState(0);
+    const [error, setError] = useState(''); // État pour gérer les erreurs
 
     // Définir l'URL de l'API en fonction de l'environnement
     const API_URL = process.env.REACT_APP_API_URL;
@@ -19,12 +20,15 @@ const PatrimoineRange = () => {
                 dateFin,
                 jour
             });
-    
+
             const valeurs = response.data;
             const totalValeur = valeurs.reduce((acc, item) => acc + item.valeur, 0);
             setValeurPatrimoine(totalValeur);
+            setError(''); // Réinitialiser l'erreur en cas de succès
         } catch (error) {
             console.error('Erreur lors de la récupération des données:', error);
+            setError('Erreur lors de la récupération des données'); // Mettre à jour l'état d'erreur
+            setValeurPatrimoine(0); // Réinitialiser la valeur en cas d'erreur
         }
     };
 
@@ -55,9 +59,10 @@ const PatrimoineRange = () => {
                 </label>
                 <button type="submit">Calculer</button>
             </form>
+            {error && <p style={{ color: 'red' }}>{error}</p>} {/* Afficher l'erreur si elle existe */}
             <p>Valeur du patrimoine : {valeurPatrimoine} Ar</p>
         </div>
     );
 };
 
-export default PatrimoineRange
+export default PatrimoineRange;

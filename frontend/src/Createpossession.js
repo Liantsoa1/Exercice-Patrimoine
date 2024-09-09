@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Form, Button, Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom"; // Importez useNavigate
+import { useNavigate } from "react-router-dom"; 
 import './CSS/CreatePossession.css'; 
 
 function CreatePossession() {
@@ -10,16 +10,18 @@ function CreatePossession() {
     const [dateDebut, setDateDebut] = useState('');
     const [dateFin, setDateFin] = useState('');
     const [tauxAmortissement, setTauxAmortissement] = useState('');
+    const [error, setError] = useState(''); // État pour gérer les erreurs
     
-    const navigate = useNavigate(); // Initialisez useNavigate
+    const navigate = useNavigate(); 
 
     // Définir l'URL de l'API en fonction de l'environnement
     const API_URL = process.env.REACT_APP_API_URL;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(''); // Réinitialiser l'erreur avant la soumission
         try {
-            await axios.post(`${API_URL}/possession/create`, {
+            await axios.post(`${API_URL}/possession`, {
                 libelle,
                 valeur: Number(valeur),
                 dateDebut,
@@ -29,12 +31,14 @@ function CreatePossession() {
             navigate('/possession'); // Naviguez vers la liste des possessions
         } catch (error) {
             console.error('Erreur lors de la création de la possession:', error);
+            setError('Erreur lors de la création de la possession'); // Mettre à jour l'état d'erreur
         }
     };
 
     return (
         <Container className="mt-4">
             <h2 className="text-center mb-4">Créer une Nouvelle Possession</h2>
+            {error && <p style={{ color: 'red' }}>{error}</p>} {/* Afficher l'erreur si elle existe */}
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formLibelle" className="mb-3">
                     <Form.Label>Libelle:</Form.Label>

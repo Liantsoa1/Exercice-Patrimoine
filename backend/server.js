@@ -48,6 +48,11 @@ app.post('/possession', async (req, res) => {
     try {
         const { libelle, valeur, dateDebut, taux, valeurConstante } = req.body;
 
+        // Validation des données entrantes
+        if (!libelle || !valeur || !dateDebut) {
+            return res.status(400).json({ message: 'Libelle, valeur et dateDebut sont requis.' });
+        }
+
         const newPossession = {
             libelle,
             valeur: Number(valeur),
@@ -59,7 +64,14 @@ app.post('/possession', async (req, res) => {
 
         const data = await fs.readFile(dataFilePath, 'utf8');
         const patrimoineData = JSON.parse(data);
-        patrimoineData.data.possessions.push(newPossession);
+        
+        // Vérifiez que la structure de patrimoineData est correcte
+        const patrimoineItem = patrimoineData.find(item => item.model === "Patrimoine");
+        if (!patrimoineItem) {
+            return res.status(404).json({ message: 'Modèle Patrimoine non trouvé' });
+        }
+
+        patrimoineItem.data.possessions.push(newPossession); // Ajoutez la nouvelle possession
 
         const updatedData = JSON.stringify(patrimoineData, null, 2);
         await fs.writeFile(dataFilePath, updatedData);
@@ -70,9 +82,15 @@ app.post('/possession', async (req, res) => {
     }
 });
 
+// Endpoint pour créer une nouvelle possession avec un chemin différent
 app.post('/possession/create', async (req, res) => {
     try {
         const { libelle, valeur, dateDebut, dateFin, tauxAmortissement } = req.body;
+
+        // Validation des données entrantes
+        if (!libelle || !valeur || !dateDebut) {
+            return res.status(400).json({ message: 'Libelle, valeur et dateDebut sont requis.' });
+        }
 
         const data = await fs.readFile(dataFilePath, 'utf8');
         const patrimoineData = JSON.parse(data);
@@ -83,8 +101,8 @@ app.post('/possession/create', async (req, res) => {
             libelle,
             valeur: Number(valeur), 
             dateDebut,
-            dateFin,
-            tauxAmortissement: Number(tauxAmortissement) 
+            dateFin: dateFin || null,
+            tauxAmortissement: Number(tauxAmortissement) || null 
         };
 
         possessions.push(newPossession); 
@@ -99,15 +117,18 @@ app.post('/possession/create', async (req, res) => {
     }
 });
 
-// Endpoint pour récupérer une possession par libelle
 app.get('/possession/:libelle', async (req, res) => {
     try {
         const { libelle } = req.params;
         const data = await fs.readFile(dataFilePath, 'utf8');
         const patrimoineData = JSON.parse(data);
 
-        const possession = patrimoineData.find(item => item.model === "Patrimoine").data.possessions.find(p => p.libelle === libelle);
+        const patrimoineItem = patrimoineData.find(item => item.model === "Patrimoine");
+        if (!patrimoineItem) {
+            return res.status(404).json({ message: 'Modèle Patrimoine non trouvé' });
+        }
 
+        const possession = patrimoineItem.data.possessions.find(p => p.libelle === libelle);
         if (!possession) {
             return res.status(404).json({ message: 'Possession non trouvée' });
         }
@@ -127,17 +148,29 @@ app.put('/possession/:libelle', async (req, res) => {
 
         const data = await fs.readFile(dataFilePath, 'utf8');
         const patrimoineData = JSON.parse(data);
-        const possessions = patrimoineData.find(item => item.model === "Patrimoine").data.possessions;
+        const patrimoineItem = patrimoineData.find(item => item.model === "Patrimoine");
+        
+        if (!patrimoineItem) {
+            return res.status(404).json({ message: 'Modèle Patrimoine non trouvé' });
+        }
 
+        const possessions = patrimoineItem.data.possessions;
         const possessionIndex = possessions.findIndex(p => p.libelle === libelle);
 
         if (possessionIndex === -1) {
             return res.status(404).json({ message: 'Possession non trouvée' });
         }
 
-        possessions[possessionIndex].dateFin = dateFin !== undefined ? dateFin : possessions[possessionIndex].dateFin;
-        possessions[possessionIndex].tauxAmortissement = tauxAmortissement !== undefined ? Number(tauxAmortissement) : possessions[possessionIndex].tauxAmortissement;
-        possessions[possessionIndex].valeur = valeur !== undefined ? Number(valeur) : possessions[possessionIndex].valeur;
+        // Mettez à jour les propriétés uniquement si elles sont définies
+        if (dateFin !== undefined) {
+            possessions[possessionIndex].dateFin = dateFin;
+        }
+        if (tauxAmortissement !== undefined) {
+            possessions[possessionIndex].tauxAmortissement = Number(tauxAmortissement);
+        }
+        if (valeur !== undefined) {
+            possessions[possessionIndex].valeur = Number(valeur);
+        }
 
         const updatedData = JSON.stringify(patrimoineData, null, 2);
         await fs.writeFile(dataFilePath, updatedData);
@@ -152,21 +185,34 @@ app.put('/possession/:libelle', async (req, res) => {
 // Endpoint pour clôturer une possession
 app.post('/possession', async (req, res) => {
     try {
-        const { libelle } = req.params;
+        const { libelle } = req.body; // Récupération du libelle depuis le corps de la requête
+        if (!libelle) {
+            return res.status(400).json({ message: 'Libelle est requis.' });
+        }
+
         const data = await fs.readFile(dataFilePath, 'utf8');
         const patrimoineData = JSON.parse(data);
-        const possessions = patrimoineData.find(item => item.model === "Patrimoine").data.possessions;
+        
+        // Vérifier si le modèle "Patrimoine" existe
+        const patrimoineItem = patrimoineData.find(item => item.model === "Patrimoine");
+        if (!patrimoineItem) {
+            return res.status(404).json({ message: 'Modèle Patrimoine non trouvé' });
+        }
 
+        const possessions = patrimoineItem.data.possessions;
         const possessionIndex = possessions.findIndex(p => p.libelle === libelle);
+
         if (possessionIndex === -1) {
             return res.status(404).json({ message: 'Possession non trouvée' });
         }
 
+        // Clôturer la possession
         possessions[possessionIndex].dateFin = new Date().toISOString();
 
         const updatedData = JSON.stringify(patrimoineData, null, 2);
         await fs.writeFile(dataFilePath, updatedData);
 
+        // Retourner la possession mise à jour
         res.json(possessions[possessionIndex]);
     } catch (error) {
         console.error('Erreur lors de la fermeture de la possession:', error);
@@ -174,6 +220,7 @@ app.post('/possession', async (req, res) => {
     }
 });
 
+// Endpoint pour récupérer la valeur du patrimoine par date
 app.get('/patrimoine/:date', async (req, res) => {
     try {
         const { date } = req.params;
@@ -181,6 +228,11 @@ app.get('/patrimoine/:date', async (req, res) => {
 
         const data = await fs.readFile(dataFilePath, 'utf8');
         const patrimoineData = JSON.parse(data).find(item => item.model === "Patrimoine");
+
+        if (!patrimoineData) {
+            return res.status(404).json({ message: 'Modèle Patrimoine non trouvé' });
+        }
+
         const possessions = patrimoineData.data.possessions;
 
         let totalValeur = 0;
@@ -207,24 +259,24 @@ app.get('/patrimoine/:date', async (req, res) => {
     }
 });
 
-// Endpoint pour clôturer une possession
+// Endpoint pour clôturer une possession par libelle
 app.post('/possession/:libelle/close', async (req, res) => {
     try {
-        const { libelle } = req.params;
+        const { libelle } = req.params; // Récupération du libelle depuis les paramètres de l'URL
         const data = await fs.readFile(dataFilePath, 'utf8');
         const patrimoineData = JSON.parse(data);
         const possessions = patrimoineData.find(item => item.model === "Patrimoine").data.possessions;
-        const possessionIndex = possessions.findIndex(p => p.libelle === libelle);
 
+        const possessionIndex = possessions.findIndex(p => p.libelle === libelle);
         if (possessionIndex === -1) {
             return res.status(404).json({ message: 'Possession non trouvée' });
         }
 
-        possessions[possessionIndex].dateFin = new Date().toISOString();
+        possessions[possessionIndex].dateFin = new Date().toISOString(); // Clôturer la possession
 
         const updatedData = JSON.stringify(patrimoineData, null, 2);
         await fs.writeFile(dataFilePath, updatedData);
-        res.json(possessions[possessionIndex]);
+        res.json(possessions[possessionIndex]); // Retourner la possession mise à jour
     } catch (error) {
         console.error('Erreur lors de la fermeture de la possession:', error);
         res.status(500).json({ message: 'Erreur lors de la fermeture de la possession' });
@@ -235,8 +287,18 @@ app.post('/possession/:libelle/close', async (req, res) => {
 app.post('/patrimoine/range', async (req, res) => {
     try {
         const { dateDebut, dateFin, jour } = req.body;
+
+        // Validation des données entrantes
+        if (!dateDebut || !dateFin || !jour) {
+            return res.status(400).json({ message: 'dateDebut, dateFin et jour sont requis.' });
+        }
+
         const data = await fs.readFile(dataFilePath, 'utf8');
         const patrimoineData = JSON.parse(data).find(item => item.model === "Patrimoine");
+        if (!patrimoineData) {
+            return res.status(404).json({ message: 'Modèle Patrimoine non trouvé' });
+        }
+
         const possessions = patrimoineData.data.possessions;
 
         let results = [];
@@ -267,7 +329,7 @@ app.post('/patrimoine/range', async (req, res) => {
             currentDate.setDate(currentDate.getDate() + 1); 
         }
 
-        res.json(results);
+        res.json(results); // Retourner les résultats
     } catch (error) {
         console.error('Erreur lors de la récupération de la valeur du patrimoine:', error);
         res.status(500).json({ message: 'Erreur lors de la récupération de la valeur du patrimoine' });
