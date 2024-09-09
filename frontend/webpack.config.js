@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
@@ -35,10 +36,14 @@ module.exports = {
         },
     },
     plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html', // Chemin vers votre template HTML
+            filename: 'index.html', // Nom du fichier de sortie
+        }),
         new Dotenv({
             path: './environment.env', // Spécifiez le chemin de votre fichier .env
         }) // Ajout de dotenv-webpack
     ],
     // Enlevez devServer si vous déployez sur Render
     mode: 'production', // Changez le mode à production pour le déploiement
-};
+}
