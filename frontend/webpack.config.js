@@ -37,7 +37,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html', // Chemin vers votre template HTML
+            template: './public/index.html', // Chemin vers votre template HTML
             filename: 'index.html', // Nom du fichier de sortie
         }),
         new Dotenv({
