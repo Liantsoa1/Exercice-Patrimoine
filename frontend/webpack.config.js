@@ -7,6 +7,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'), // Dossier de sortie
         filename: 'bundle.js', // Nom du fichier de sortie
+        clean: true, // Nettoyer le dossier de sortie avant chaque build
     },
     module: {
         rules: [
@@ -44,6 +45,12 @@ module.exports = {
             path: './environment.env', // Spécifiez le chemin de votre fichier .env
         }),
     ],
+    optimization: {
+        splitChunks: {
+            chunks: 'all', // Activer le code splitting pour tous les chunks
+        },
+        runtimeChunk: 'single', // Créer un chunk runtime séparé
+    },
     stats: {
         children: true, // Activer les détails des compilations enfants
     },
