@@ -6,7 +6,7 @@ module.exports = {
     entry: './src/index.js', // Chemin vers votre fichier d'entrée
     output: {
         path: path.resolve(__dirname, 'dist'), // Dossier de sortie
-        filename: 'bundle.js', // Nom du fichier de sortie
+        filename: '[name].[contenthash].js', // Utiliser un hash pour éviter les conflits de noms de fichiers
         clean: true, // Nettoyer le dossier de sortie avant chaque build
     },
     module: {
