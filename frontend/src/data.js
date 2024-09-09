@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 
 // Définir l'URL de l'API en fonction de l'environnement
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+const API_URL = process.env.REACT_APP_API_URL;
 
 // Fonction pour récupérer la liste des possessions
 export const fetchData = async () => {

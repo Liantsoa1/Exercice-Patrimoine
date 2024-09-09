@@ -8,7 +8,7 @@ function PatrimoineValuation() {
     const [error, setError] = useState('');
 
     // Définir l'URL de l'API en fonction de l'environnement
-    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+    const API_URL = process.env.REACT_APP_API_URL;
 
     const handleDateChange = async (event) => {
         const selectedDate = event.target.value;
