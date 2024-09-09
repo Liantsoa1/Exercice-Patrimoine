@@ -23,7 +23,19 @@ app.get('/possession', async (req, res) => {
     try {
         const data = await fs.readFile(dataFilePath, 'utf8');
         const patrimoineData = JSON.parse(data);
-        const possessions = patrimoineData.find(item => item.model === "Patrimoine").data.possessions; // Accéder à la bonne structure
+        
+        // Vérifiez si le modèle "Patrimoine" existe avant d'accéder à ses données
+        const patrimoineItem = patrimoineData.find(item => item.model === "Patrimoine");
+        if (!patrimoineItem) {
+            return res.status(404).json({ message: 'Modèle Patrimoine non trouvé' });
+        }
+
+        // Vérifiez si les possessions existent
+        const possessions = patrimoineItem.data.possessions;
+        if (!Array.isArray(possessions)) {
+            return res.status(500).json({ message: 'Les possessions ne sont pas dans le format attendu' });
+        }
+
         res.json(possessions);
     } catch (error) {
         console.error('Erreur lors de la récupération des possessions:', error);
